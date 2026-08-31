@@ -30,6 +30,13 @@ class ClienteCreate(BaseModel):
             )
 
         return value
+    
+    @field_validator("dni")
+    @classmethod
+    def validar_dni(cls, value: str):
+        if not value.isdigit(): # o usar regex r"^\d+$"
+            raise ValueError("El DNI solo debe contener números")
+        return value
 
 
 class ClienteResponse(BaseModel):
