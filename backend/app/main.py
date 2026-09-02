@@ -2,9 +2,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import Base, engine
-from app.routers import clientes
+from app.routers import clientes, productos, ventas
 
 from app.models.cliente import Cliente
+from app.models.producto import Producto
+from app.models.venta import Venta, DetalleVenta
 
 
 Base.metadata.create_all(bind=engine)
@@ -24,6 +26,8 @@ app.add_middleware(
 )
 
 app.include_router(clientes.router)
+app.include_router(productos.router)
+app.include_router(ventas.router)
 
 
 @app.get("/")

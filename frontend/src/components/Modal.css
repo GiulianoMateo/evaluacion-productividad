@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap');
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-container {
+  background: var(--surface);
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  max-width: 400px;
+  margin: 20px;
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  padding: 20px 24px 0;
+}
+
+.modal-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.modal-body {
+  padding: 16px 24px;
+}
+
+.modal-body p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.modal-footer {
+  padding: 16px 24px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.modal-footer .btn {
+  font-family: 'Montserrat', sans-serif;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.modal-footer .btn-primario {
+  background-color: var(--primary);
+  color: white;
+}
+
+.modal-footer .btn-primario:hover {
+  background-color: var(--primary-hover);
+}
+
+.modal-footer .btn-secundario {
+  background-color: var(--surface);
+  color: var(--text-main);
+  border-color: var(--border);
+}
+
+.modal-footer .btn-secundario:hover {
+  background-color: #f9fafb;
+}
+
+.modal-footer .btn-danger {
+  background-color: var(--error);
+  color: white;
+}
+
+.modal-footer .btn-danger:hover {
+  background-color: #b91c1c;
+}

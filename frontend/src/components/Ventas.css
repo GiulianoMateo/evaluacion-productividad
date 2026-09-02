@@ -1,0 +1,548 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap');
+
+.ventas-app {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+.ventas-app .header {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 40px;
+  padding: 35px 0;
+}
+
+.ventas-app .header-contenido {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ventas-app .titulo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #111827;
+}
+
+.ventas-app .subtitulo {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+.ventas-app .contenido {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+.ventas-app .controles {
+  margin-bottom: 24px;
+}
+
+.ventas-app .filtros-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ventas-app .busqueda-container {
+  width: 100%;
+  position: relative;
+}
+
+.ventas-app .icono-buscar {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: #9ca3af;
+}
+
+.ventas-app .input-busqueda {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: var(--surface);
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.ventas-app .input-busqueda:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.ventas-app .filtros-fecha {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ventas-app .input-fecha,
+.ventas-app .input-dni {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.ventas-app .input-fecha:focus,
+.ventas-app .input-dni:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.ventas-app .btn-buscar {
+  padding: 10px 20px;
+}
+
+.ventas-app .btn {
+  font-family: 'Montserrat', sans-serif;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ventas-app .btn-toggle {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.ventas-app .btn-primario {
+  background-color: var(--primary);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.ventas-app .btn-primario:hover {
+  background-color: var(--primary-hover);
+}
+
+.ventas-app .btn-secundario {
+  background-color: var(--surface);
+  color: var(--text-main);
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.ventas-app .btn-secundario:hover {
+  background-color: #f9fafb;
+}
+
+.ventas-app .formulario-container {
+  margin-bottom: 32px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ventas-app .formulario {
+  background: var(--surface);
+  padding: 30px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+}
+
+.ventas-app .form-header h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #1f2937;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ventas-app .form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.ventas-app .campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ventas-app .campo label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ventas-app .campo select,
+.ventas-app .campo input {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+}
+
+.ventas-app .campo select:focus,
+.ventas-app .campo input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.ventas-app .productos-venta {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.ventas-app .productos-venta h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #374151;
+}
+
+.ventas-app .agregar-producto {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.ventas-app .agregar-producto select {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.ventas-app .input-cantidad {
+  width: 80px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+}
+
+.ventas-app .lista-detalles {
+  margin-top: 20px;
+}
+
+.ventas-app .tabla-detalles {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.ventas-app .tabla-detalles th,
+.ventas-app .tabla-detalles td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.ventas-app .tabla-detalles th {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ventas-app .btn-quitar {
+  background: transparent;
+  border: none;
+  color: var(--error);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.ventas-app .btn-quitar:hover {
+  background: #fef2f2;
+}
+
+.ventas-app .total-venta {
+  text-align: right;
+  padding: 16px 0;
+  font-size: 1.1rem;
+  color: #111827;
+}
+
+.ventas-app .form-acciones {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.ventas-app .lista-ventas {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ventas-app .tarjeta-venta {
+  padding: 20px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.ventas-app .tarjeta-venta:hover {
+  box-shadow: var(--shadow-md);
+  border-color: #d1d5db;
+}
+
+.ventas-app .venta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.ventas-app .venta-info h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.ventas-app .venta-fecha {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.ventas-app .estado {
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.ventas-app .estado-activo,
+.ventas-app .estado-procesada {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.ventas-app .estado-inactivo {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.ventas-app .estado-borrador {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.ventas-app .estado-anulada {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.ventas-app .venta-cliente {
+  font-size: 0.9rem;
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+.ventas-app .venta-detalles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ventas-app .detalle-item {
+  font-size: 0.8rem;
+  background: #f3f4f6;
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: #374151;
+}
+
+.ventas-app .sin-detalles {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.ventas-app .venta-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.ventas-app .venta-total {
+  font-size: 1rem;
+  color: #111827;
+}
+
+.ventas-app .acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.ventas-app .btn-accion {
+  background: transparent;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+}
+
+.ventas-app .btn-accion svg {
+  width: 14px;
+  height: 14px;
+}
+
+.ventas-app .btn-accion span {
+  text-transform: lowercase;
+}
+
+.ventas-app .btn-accion span:first-letter {
+  text-transform: uppercase;
+}
+
+.ventas-app .btn-anular:hover {
+  color: var(--error);
+  background: #fef2f2;
+}
+
+.ventas-app .mensaje {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  z-index: 100;
+  background: var(--surface);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  max-width: 90%;
+}
+
+.ventas-app .mensaje-success {
+  border-left: 4px solid var(--success);
+  color: #064e3b;
+}
+
+.ventas-app .mensaje-error {
+  border-left: 4px solid var(--error);
+  color: #7f1d1d;
+}
+
+.ventas-app .mensaje-warning {
+  border-left: 4px solid #f59e0b;
+  color: #92400e;
+}
+
+.ventas-app .sin-ventas {
+  text-align: center;
+  padding: 60px 20px;
+  background: transparent;
+  color: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .ventas-app .header-contenido {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .ventas-app .btn-toggle {
+    width: 100%;
+  }
+
+  .ventas-app .filtros-fecha {
+    flex-direction: column;
+  }
+
+  .ventas-app .input-fecha,
+  .ventas-app .input-dni {
+    width: 100%;
+  }
+
+  .ventas-app .agregar-producto {
+    flex-direction: column;
+  }
+
+  .ventas-app .agregar-producto select {
+    width: 100%;
+  }
+
+  .ventas-app .tarjeta-venta {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ventas-app .tabla-detalles {
+    font-size: 0.8rem;
+  }
+
+  .ventas-app .tabla-detalles th,
+  .ventas-app .tabla-detalles td {
+    padding: 8px;
+  }
+
+  .ventas-app .venta-footer {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .ventas-app .acciones {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

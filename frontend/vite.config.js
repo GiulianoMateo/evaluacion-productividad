@@ -8,6 +8,14 @@ export default defineConfig({
       '/clientes': {
         target: 'http://localhost:8000',
         changeOrigin: true
+      },
+      '/productos': {
+        target: 'http://localhost:8000',
+        changeOrigin: true
+      },
+      '/ventas': {
+        target: 'http://localhost:8000',
+        changeOrigin: true
       }
     }
   }

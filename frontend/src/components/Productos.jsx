@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from 'react'
 import Modal from './Modal'
-import './Clientes.css'
+import './Productos.css'
 
-const API_URL = '/clientes'
+const API_URL = '/productos'
 
-function App() {
-  const [clientes, setClientes] = useState([])
+function Productos() {
+  const [productos, setProductos] = useState([])
   const [formData, setFormData] = useState({
-    dni: '', nombre: '', apellido: '', email: '', telefono: '', estado: 'Activo'
+    codigo: '', nombre: '', marca: '', descripcion: '', precio_unitario: '', stock: '', estado: 'Activo'
   })
   const [editando, setEditando] = useState(null)
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
@@ -16,17 +16,17 @@ function App() {
   const [modal, setModal] = useState({ open: false, title: '', message: '', type: 'danger' })
   const [pendingAction, setPendingAction] = useState(null)
 
-  const cargarClientes = useCallback(async () => {
+  const cargarProductos = useCallback(async () => {
     try {
       const res = await fetch(API_URL)
       const data = await res.json()
-      setClientes(data)
+      setProductos(data)
     } catch {
-      mostrarMensaje('Error al cargar clientes', 'error')
+      mostrarMensaje('Error al cargar productos', 'error')
     }
   }, [])
 
-  useEffect(() => { cargarClientes() }, [cargarClientes])
+  useEffect(() => { cargarProductos() }, [cargarProductos])
 
   const mostrarMensaje = (texto, tipo) => {
     setMensaje({ texto, tipo })
@@ -40,49 +40,59 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const precio = parseFloat(formData.precio_unitario)
+    const stock = parseInt(formData.stock)
+
+    if (precio <= 0) {
+      mostrarMensaje('El precio unitario debe ser un número positivo', 'error')
+      return
+    }
+
+    if (stock < 0) {
+      mostrarMensaje('El stock no puede ser negativo', 'error')
+      return
+    }
+
     try {
       const method = editando ? 'PUT' : 'POST'
       const url = editando ? `${API_URL}/${editando}` : API_URL
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({ ...formData, precio_unitario: precio, stock: stock })
       })
 
       if (res.ok) {
-        cargarClientes()
+        cargarProductos()
         resetForm()
-        mostrarMensaje(editando ? 'Cliente actualizado' : 'Cliente creado', 'success')
+        mostrarMensaje(editando ? 'Producto actualizado' : 'Producto registrado', 'success')
       } else {
         const error = await res.json()
-        const mensajeError = Array.isArray(error.detail)
-          ? error.detail.map(e => e.msg.replace(/^Value error,\s*/i, '')).join(', ')
-          : (error.detail || 'Error al guardar')
-        mostrarMensaje(mensajeError, 'error')
+        mostrarMensaje(error.detail || 'Error al guardar', 'error')
       }
     } catch {
       mostrarMensaje('Error de conexión', 'error')
     }
   }
 
-  const editarCliente = (cliente) => {
-    setFormData({ ...cliente })
-    setEditando(cliente.id)
+  const editarProducto = (producto) => {
+    setFormData({ ...producto })
+    setEditando(producto.id)
     setMostrarFormulario(true)
   }
 
   const confirmarAccion = async () => {
     if (!pendingAction) return
-    const { type, id, cliente } = pendingAction
+    const { type, id, producto } = pendingAction
     setModal({ open: false, title: '', message: '', type: 'danger' })
     setPendingAction(null)
 
     try {
       if (type === 'baja') {
-        const res = await fetch(`${API_URL}/${cliente.id}/baja`, { method: 'POST' })
+        const res = await fetch(`${API_URL}/${producto.id}/baja`, { method: 'POST' })
         if (res.ok) {
-          cargarClientes()
-          mostrarMensaje('Cliente dado de baja correctamente', 'success')
+          cargarProductos()
+          mostrarMensaje('Producto dado de baja correctamente', 'success')
         } else {
           const error = await res.json()
           mostrarMensaje(error.detail || 'Error al dar de baja', 'error')
@@ -93,50 +103,47 @@ function App() {
     }
   }
 
-  const darDeBaja = (cliente) => {
-    if (cliente.estado.toLowerCase() === 'inactivo') {
-      mostrarMensaje('El cliente ya se encuentra dado de baja', 'warning')
+  const darDeBaja = (producto) => {
+    if (producto.estado.toLowerCase() === 'inactivo') {
+      mostrarMensaje('El producto ya se encuentra dado de baja', 'warning')
       return
     }
 
-    setPendingAction({ type: 'baja', cliente })
+    setPendingAction({ type: 'baja', producto })
     setModal({
       open: true,
       title: 'Dar de baja',
-      message: `¿Dar de baja a ${cliente.nombre} ${cliente.apellido}?`,
+      message: `¿Dar de baja a ${producto.nombre}?`,
       type: 'danger'
     })
   }
 
   const resetForm = () => {
-    setFormData({ dni: '', nombre: '', apellido: '', email: '', telefono: '', estado: 'Activo' })
+    setFormData({ codigo: '', nombre: '', marca: '', descripcion: '', precio_unitario: '', stock: '', estado: 'Activo' })
     setEditando(null)
     setMostrarFormulario(false)
   }
 
-  const clientesFiltrados = clientes.filter(c =>
-    `${c.nombre} ${c.apellido} ${c.dni}`.toLowerCase().includes(filtro.toLowerCase())
+  const productosFiltrados = productos.filter(p =>
+    `${p.nombre} ${p.codigo} ${p.marca}`.toLowerCase().includes(filtro.toLowerCase())
   )
 
-  const getIniciales = (nombre, apellido) => `${nombre.charAt(0)}${apellido.charAt(0)}`.toUpperCase()
-
-  const getColorAvatar = (id) => {
-    const colores = ['#2563eb', '#059669', '#4f46e5', '#0284c7', '#7c3aed', '#475569']
-    return colores[id % colores.length]
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(price)
   }
 
   return (
-    <div className="clientes-app">
+    <div className="productos-app">
       <header className="header">
         <div className="header-contenido">
           <div className="header-textos">
-            <h1 className="titulo">Gestión de Clientes</h1>
+            <h1 className="titulo">Gestión de Productos</h1>
           </div>
           <button
             className="btn btn-primario btn-toggle"
             onClick={() => { resetForm(); setMostrarFormulario(!mostrarFormulario); }}
           >
-            {mostrarFormulario ? 'Cancelar Registro' : 'Nuevo Cliente'}
+            {mostrarFormulario ? 'Cancelar Registro' : 'Nuevo Producto'}
           </button>
         </div>
       </header>
@@ -155,7 +162,7 @@ function App() {
             </svg>
             <input
               type="text"
-              placeholder="Buscar por nombre, apellido o DNI..."
+              placeholder="Buscar por nombre, código o marca..."
               value={filtro}
               onChange={(e) => setFiltro(e.target.value)}
               className="input-busqueda"
@@ -167,14 +174,15 @@ function App() {
           <div className="formulario-container">
             <form className="formulario" onSubmit={handleSubmit}>
               <div className="form-header">
-                <h2>{editando ? 'Editar información del cliente' : 'Registrar nuevo cliente'}</h2>
+                <h2>{editando ? 'Editar información del producto' : 'Registrar nuevo producto'}</h2>
               </div>
               <div className="form-grid">
-                <div className="campo"><label>DNI</label><input type="text" name="dni" value={formData.dni} onChange={handleChange} required /></div>
+                <div className="campo"><label>Código / SKU</label><input type="text" name="codigo" value={formData.codigo} onChange={handleChange} required /></div>
                 <div className="campo"><label>Nombre</label><input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required /></div>
-                <div className="campo"><label>Apellido</label><input type="text" name="apellido" value={formData.apellido} onChange={handleChange} required /></div>
-                <div className="campo"><label>Email</label><input type="email" name="email" value={formData.email} onChange={handleChange} required /></div>
-                <div className="campo"><label>Teléfono</label><input type="text" name="telefono" value={formData.telefono} onChange={handleChange} required /></div>
+                <div className="campo"><label>Marca</label><input type="text" name="marca" value={formData.marca} onChange={handleChange} required /></div>
+                <div className="campo"><label>Descripción</label><input type="text" name="descripcion" value={formData.descripcion} onChange={handleChange} /></div>
+                <div className="campo"><label>Precio Unitario</label><input type="number" name="precio_unitario" value={formData.precio_unitario} onChange={handleChange} step="0.01" min="0.01" required /></div>
+                <div className="campo"><label>Stock Inicial</label><input type="number" name="stock" value={formData.stock} onChange={handleChange} min="0" required /></div>
               </div>
               <div className="form-acciones">
                 <button type="button" className="btn btn-secundario" onClick={resetForm}>Cancelar</button>
@@ -184,41 +192,45 @@ function App() {
           </div>
         )}
 
-        <div className="lista-clientes">
-          {clientesFiltrados.length === 0 ? (
-            <div className="sin-clientes">
-              <p>{filtro ? 'No hay resultados para tu búsqueda.' : 'Aún no hay clientes registrados.'}</p>
+        <div className="lista-productos">
+          {productosFiltrados.length === 0 ? (
+            <div className="sin-productos">
+              <p>{filtro ? 'No hay resultados para tu búsqueda.' : 'Aún no hay productos registrados.'}</p>
             </div>
           ) : (
-            clientesFiltrados.map(cliente => (
-              <div key={cliente.id} className="tarjeta-cliente">
-                <div className="avatar" style={{ backgroundColor: getColorAvatar(cliente.id) }}>
-                  {getIniciales(cliente.nombre, cliente.apellido)}
+            productosFiltrados.map(producto => (
+              <div key={producto.id} className="tarjeta-producto">
+                <div className="producto-icono">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                  </svg>
                 </div>
-                <div className="info-cliente">
-                  <h3>{cliente.nombre} {cliente.apellido}</h3>
+                <div className="info-producto">
+                  <h3>{producto.nombre}</h3>
                   <div className="detalles">
-                    <span className="detalle"><strong>DNI:</strong> {cliente.dni}</span>
-                    <span className="detalle"><strong>Email:</strong> {cliente.email}</span>
-                    <span className="detalle"><strong>Tel:</strong> {cliente.telefono}</span>
+                    <span className="detalle"><strong>SKU:</strong> {producto.codigo}</span>
+                    <span className="detalle"><strong>Marca:</strong> {producto.marca}</span>
+                    <span className="detalle"><strong>Precio:</strong> {formatPrice(producto.precio_unitario)}</span>
+                    <span className="detalle"><strong>Stock:</strong> {producto.stock}</span>
                   </div>
+                  {producto.descripcion && <p className="descripcion">{producto.descripcion}</p>}
                 </div>
                 <div className="estado-container">
-                  {cliente.estado.toLowerCase() === 'inactivo' && (
-                    <span className={`estado estado-${cliente.estado.toLowerCase()}`}>
-                      {cliente.estado}
+                  {producto.estado.toLowerCase() === 'inactivo' && (
+                    <span className={`estado estado-${producto.estado.toLowerCase()}`}>
+                      {producto.estado}
                     </span>
                   )}
                 </div>
                 <div className="acciones">
-                  {cliente.estado.toLowerCase() !== 'inactivo' && (
-                    <button type="button" className="btn-accion btn-editar" onClick={() => editarCliente(cliente)} title="Editar">
+                  {producto.estado.toLowerCase() !== 'inactivo' && (
+                    <button type="button" className="btn-accion btn-editar" onClick={() => editarProducto(producto)} title="Editar">
                       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                       <span>editar</span>
                     </button>
                   )}
-                  {cliente.estado.toLowerCase() !== 'inactivo' && (
-                    <button type="button" className="btn-accion btn-baja" onClick={() => darDeBaja(cliente)} title="Dar de baja">
+                  {producto.estado.toLowerCase() !== 'inactivo' && (
+                    <button type="button" className="btn-accion btn-baja" onClick={() => darDeBaja(producto)} title="Dar de baja">
                       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg>
                       <span>dar de baja</span>
                     </button>
@@ -242,4 +254,4 @@ function App() {
   )
 }
 
-export default App
+export default Productos
